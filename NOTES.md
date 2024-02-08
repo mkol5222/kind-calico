@@ -8,7 +8,7 @@ ark get kind
 kind create cluster --config kind-calico.yaml
 
 # our new cluster
-kubectl get no
+kubectl get no -o wide
 kubectl get pods -n kube-system
 kubectl config view 
 
@@ -22,11 +22,11 @@ kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0
 # watch progress
 kubectl get pods -A --watch
 
-kubectl create deplop web --image nginx --port 80
+kubectl create deploy web --image nginx --port 80
 WEBPOD=$(kubectl get po -l app=web -o name | head -1)
 kubectl exec -it $WEBPOD -- curl ip.iol.cz/ip/
 
-while true; do kubectl exec -it $WEBPOD -- curl -s -m1 ip.iol.cz/ip/; sleep 3; done
+while true; do kubectl exec -it $WEBPOD -- curl -s -m1 ip.iol.cz/ip/; echo ; sleep 3; done
 
 # deny egress from NS default
 #kubectl delete -f allow-all-egress.yaml
